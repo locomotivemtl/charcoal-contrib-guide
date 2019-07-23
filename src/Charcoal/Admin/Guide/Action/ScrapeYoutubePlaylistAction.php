@@ -2,13 +2,17 @@
 
 namespace Charcoal\Admin\Guide\Action;
 
+use Charcoal\Admin\Guide\Object\VideoAssociation;
 use Charcoal\App\Action\AbstractAction;
+use Charcoal\Model\ModelFactoryTrait;
 use Pimple\Container;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class ScrapeYoutubePlaylistAction extends AbstractAction
 {
+    use ModelFactoryTrait;
+    
     /**
      * @var array
      */
@@ -25,6 +29,7 @@ class ScrapeYoutubePlaylistAction extends AbstractAction
      */
     public function setDependencies(Container $container)
     {
+        $this->setModelFactory($container['model/factory']);
         $this->setYoutubePlaylistScraperService($container['youtube/playlist/scraper']);
         parent::setDependencies($container);
     }
@@ -70,6 +75,22 @@ class ScrapeYoutubePlaylistAction extends AbstractAction
 
         try {
             $scraper->run(['playlistId' => $playlist]);
+
+            // Remove video associations
+            $proto = $this->modelFactory()->create(VideoAssociation::class);
+            if (!$proto->source()->tableExists()) {
+                $proto->source()->createTable();
+            }
+
+            // Avoid duplicated, delete previous entries
+            $q = strtr('DELETE FROM `%table`',
+                [
+                    '%table' => $proto->source()->table()
+                ]);
+
+            // Removing all entries
+            $proto->source()->dbQuery($q);
+
         } catch (\Exception $e) {
             $this->error('An error occured: ' . $e->getMessage());
             return $response->withStatus(404);

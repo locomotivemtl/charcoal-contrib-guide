@@ -57,6 +57,22 @@ In your project's config file, require the notification module :
 }
 ```
 
+Then, add an youtube api key:
+To find an api key, go to `https://console.cloud.google.com`, reach a `billable project` then go to credentials,
+and add an api key. `Youtube Data Api` must be enabled to restrict key accordingly. To enable the api, go to
+`Library`, then search for `Youtube Data Api`.
+```json
+{
+    "apis": {
+        "google": {
+            "youtube": {
+                "key": "xxxxxxx"
+            }
+        }
+    }
+}
+```
+
 ## Usage
 
 Upon installation, you will get a new item in the system menu `Video tutorials` which will bring you to a menu

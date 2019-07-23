@@ -34,6 +34,9 @@ class VideoAssociationService
     public function loadAssociations()
     {
         $proto = $this->modelFactory()->create(VideoAssociation::class);
+        if (!$proto->source()->tableExists()) {
+            $proto->source()->createTable();
+        }
         $list  = $this->collectionLoader()->setModel($proto)->load();
 
         $processedObjTypes = [];

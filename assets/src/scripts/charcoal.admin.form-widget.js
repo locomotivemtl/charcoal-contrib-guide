@@ -59,7 +59,8 @@ Charcoal.Admin.Widget_Form.prototype.hasHelpButton = function () {
                         var haystack = forms[k].ids;
                         var length   = haystack.length;
                         for (var i = 0; i < length; i++) {
-                            if (haystack[i] === this.obj_id) {
+                            if (haystack[i].toString() === this.obj_id.toString()) {
+                                this.guide.setVideo(forms[k].video);
                                 this._hasHelpButton = true;
                                 break loop;
                             }

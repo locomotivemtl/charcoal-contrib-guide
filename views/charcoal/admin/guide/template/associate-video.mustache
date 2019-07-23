@@ -46,6 +46,7 @@
 
                                             <select size name="obj[{{type}}][video][]"
                                                     class="form-control selectized">
+                                                <option value="">- None -</option>
                                                 {{#videos}}
                                                     <option value="{{id}}"{{#selected}} selected="selected"{{/selected}}>{{title}}</option>
                                                 {{/videos}}

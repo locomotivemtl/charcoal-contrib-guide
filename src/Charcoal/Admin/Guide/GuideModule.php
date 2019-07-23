@@ -10,8 +10,8 @@ use Charcoal\App\Module\AbstractModule;
  */
 class GuideModule extends AbstractModule
 {
-    const ADMIN_CONFIG = 'vendor/locomotivemtl/charcoal-contrib-admin-guide/config/admin.json';
-    const APP_CONFIG = 'vendor/locomotivemtl/charcoal-contrib-admin-guide/config/config.json';
+    const ADMIN_CONFIG = 'vendor/locomotivemtl/charcoal-contrib-guide/config/admin.json';
+    const APP_CONFIG = 'vendor/locomotivemtl/charcoal-contrib-guide/config/config.json';
 
     /**
      * Setup the module's dependencies.

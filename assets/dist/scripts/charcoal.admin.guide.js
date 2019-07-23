@@ -59,7 +59,8 @@ Charcoal.Admin.Widget_Form.prototype.hasHelpButton = function () {
                         var haystack = forms[k].ids;
                         var length   = haystack.length;
                         for (var i = 0; i < length; i++) {
-                            if (haystack[i] === this.obj_id) {
+                            if (haystack[i].toString() === this.obj_id.toString()) {
+                                this.guide.setVideo(forms[k].video);
                                 this._hasHelpButton = true;
                                 break loop;
                             }
@@ -92,6 +93,7 @@ Charcoal.Admin.Widget_Form.prototype.getSidebar = function () {
  * @constructor
  */
 Charcoal.Admin.Guide = function () {
+    this.video = {};
     this.url = 'guide/fetch/objects';
 };
 
@@ -122,6 +124,16 @@ Charcoal.Admin.Guide.prototype.fetch = function (callback) {
 
 /**
  *
+ * @param video
+ * @returns {Charcoal.Admin.Guide}
+ */
+Charcoal.Admin.Guide.prototype.setVideo = function(video) {
+    this.video = video;
+    return this;
+};
+
+/**
+ *
  * @param objType
  * @returns {boolean}
  */
@@ -131,12 +143,18 @@ Charcoal.Admin.Guide.prototype.popVideo = function (objType) {
         return false;
     }
 
-    var video = this.data[objType].video;
+    var video = this.video;
+
+    if (typeof video.id === 'undefined') {
+        console.error('No video defined for the current object');
+        return this;
+    }
 
     var template = '<figure class="embed-responsive embed-responsive-16by9">\n' +
-        '<iframe width="640" height="480" src="https://www.youtube.com/embed/'+video+'">\n' +
+        '<iframe width="640" height="480" src="https://www.youtube.com/embed/'+video.id+'">\n' +
         '</iframe>\n' +
-        '</figure>';
+        '</figure><br>' +
+        '<a href="https://www.youtube.com/watch?v='+video.id+'" target="_blank">Voir sur youtube</a>';
 
     BootstrapDialog.show({
         nl2br:   false,
@@ -145,7 +163,6 @@ Charcoal.Admin.Guide.prototype.popVideo = function (objType) {
             label:  'Ok',
             action: function (dialog) {
                 dialog.close();
-                // window.location.href = '{{baseUrl}}/admin/object/edit?obj_type={{obj_type}}&obj_id={{id}}'
             }
         }]
     });
