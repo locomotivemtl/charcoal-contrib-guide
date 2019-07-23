@@ -1,0 +1,134 @@
+{
+    "labels": {
+        "name": "Association",
+        "singular_name": "Association",
+        "create_item": "Ajouter une association vidéo",
+        "new_item": "Nouvelle association vidéo",
+        "view_item": "Voir l'association vidéo",
+        "edit_item": "Modifier l'association vidéo",
+        "all_items": "Toutes les associations vidéo",
+        "menu_items": "Association vidéo"
+    },
+    "properties": {
+        "id": {
+            "type": "id",
+            "mode": "uuid"
+        },
+        "target_obj_type": {
+            "type": "string",
+            "label": {
+                "fr": "Type d'objet",
+                "en": "Target object type"
+            }
+        },
+        "target_obj_property": {
+            "type": "string",
+            "label": {
+                "fr": "Propriété de l'objet",
+                "en": "Object property"
+            }
+        },
+        "target_obj_property_value": {
+            "type": "string",
+            "label": {
+                "fr": "Valeur de la propriété de l'objet",
+                "en": "Object property value"
+            }
+        },
+        "target_widget": {
+            "type": "string",
+            "label": {
+                "fr": "Widget",
+                "en": "Target widget"
+            }
+        },
+        "video": {
+            "type": "string",
+            "label": {
+                "fr": "Identifiant de la vidéo",
+                "en": "Video ID"
+            }
+        },
+        "video_type": {
+            "type": "string",
+            "label": {
+                "fr": "Type de vidéo",
+                "en": "Video type"
+            }
+        }
+    },
+    "sources": {
+        "default": {
+            "table": "charcoal_admin_guide_video_associations"
+        }
+    },
+    "default_source": "default",
+    "admin": {
+        "lists": {
+            "default": {
+                "properties": [
+                    "id"
+                ],
+                "orders": [
+                    {
+                        "property": "position",
+                        "mode": "desc"
+                    }
+                ]
+            }
+        },
+        "default_list": "default",
+        "forms": {
+            "default": {
+                "groups": {
+                    "info": {
+                        "title": "Contenu",
+                        "layout": {
+                            "structure": [
+                                {
+                                    "columns": [1, 2]
+                                }, {
+                                    "columns": [3, 1]
+                                }, {
+                                    "columns": [1]
+                                }
+                            ]
+                        },
+                        "properties": [
+                            "id"
+                        ],
+                        "priority": 100
+                    }
+                },
+                "sidebars": {
+                    "actions": {}
+                }
+            }
+        },
+        "default_form": "default",
+        "dashboards": {
+            "admin.edit": {
+                "widgets": {
+                    "form": {
+                        "type": "charcoal/admin/widget/object-form",
+                        "form_ident": "default",
+                        "obj_type": "charcoal/admin/guide/object/video-association"
+                    }
+                }
+            },
+            "admin.table": {
+                "widgets": {
+                    "table": {
+                        "type": "charcoal/admin/widget/table",
+                        "collection_ident": "default",
+                        "obj_type": "charcoal/admin/guide/object/video-association",
+                        "priority": 20
+                    }
+                }
+            }
+        },
+        "default_create_dashboard": "admin.edit",
+        "default_edit_dashboard": "admin.edit",
+        "default_collection_dashboard": "admin.table"
+    }
+}

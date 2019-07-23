@@ -1,0 +1,122 @@
+{{> charcoal/admin/template/inc.header }}
+
+<main class="c-page-container o-flex_main">
+    {{> charcoal/admin/template/inc.page-header }}
+    <section class="o-container -top -bottom">
+        {{> charcoal/admin/widget/feedbacks }}
+        <form method="POST" action="guide/save-video-association" class="js-video-association-form">
+            <div class="dashboard o-container o-flex">
+                <div class="o-flex_main">
+                    <table class="table table-striped table-contourless">
+                        <thead>
+                        <tr>
+                            <th>Object</th>
+                            <th>Associations</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {{#form}}
+                            <tr>
+                                <td>
+                                    <span>{{label}}</span>
+                                </td>
+
+                                <td class="w-100 js-fieldset-container">
+                                    {{#filters}}
+                                    <fieldset class="js-fieldset-template">
+                                        <div class="input-group mb-1">
+                                            <select size name="obj[{{type}}][widget_type][]"
+                                                    class="form-control selectized">
+                                                {{#widgetTypes}}
+                                                    <option value="{{value}}"{{#selected}} selected="selected"{{/selected}}>{{label}}</option>
+                                                {{/widgetTypes}}
+                                            </select>
+                                            {{#property}}
+                                                <input name="obj[{{type}}][property][]" value="{{.}}" type="hidden">
+                                                <select size name="obj[{{type}}][{{.}}][]"
+                                                        class="form-control selectized">
+                                                    <option value="">- Global -</option>
+                                                    {{#propertyValues}}
+                                                        <option value="{{value}}"{{#selected}} selected="selected"{{/selected}}>{{label}}</option>
+                                                    {{/propertyValues}}
+                                                </select>
+                                            {{/property}}
+
+
+                                            <select size name="obj[{{type}}][video][]"
+                                                    class="form-control selectized">
+                                                {{#videos}}
+                                                    <option value="{{id}}"{{#selected}} selected="selected"{{/selected}}>{{title}}</option>
+                                                {{/videos}}
+                                            </select>
+                                            <button type="button" class="{{#removable}}d-none {{/removable}}fa fa-plus btn btn-primary js-add"></button>
+                                            <button type="button"
+                                                    class="{{^removable}}d-none {{/removable}}fa fa-minus btn btn-danger js-remove"></button>
+                                        </div>
+                                    </fieldset>
+
+                                    {{/filters}}
+                                </td>
+                            </tr>
+                        {{/form}}
+
+                        </tbody>
+                    </table>
+                </div>
+                <aside class="o-flex_aside c-form-widget_sidebar">
+                    <div class="c-sidebar-widget js-sidebar-widget">
+                        <header class="c-sidebar-widget_header">
+                            <h2 class="h1 c-sidebar-widget_heading">Actions</h2>
+                        </header>
+                        <div class="c-sidebar-widget_wrapper -properties">
+                            <ul class="c-sidebar-widget_table list-unstyled form-group">
+                                <li class="c-sidebar-widget_table_row">
+                                    <label class="c-sidebar-widget_table_header">
+                                        L'ajout d'une vidéo à un formulaire sans choisir de propriété (template ident)
+                                        ajoutera la vidéo à tous les objets.<br>
+                                        L'ordre des vidéos est important puisqu'une fois qu'un objet a une vidéo,
+                                        il ne peut en avoir une deuxième. Concrètement, si vous associée une vidéo
+                                        a un formulaire sans propriété, ou "global", en premier, aucun des autres vidéos
+                                        ne sera pris en compte pour un formulaire du même objet.
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="c-sidebar-widget_wrapper -actions">
+
+                            <div class="btn-group-vertical c-sidebar-widget_actions" role="group">
+                                <button
+                                    class="btn btn-primary"
+                                    type="submit"
+                                ><span class="fa fa-refresh u-spin d-none"></span>
+                                    <span class="btn-label">Save</span>
+
+                                </button>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+        </form>
+    </section>
+</main>
+
+
+{{#assets.inject.js}}
+    $(document).ready(function() {
+    var guides = [];
+    $('.js-fieldset-template').each(function(i,e) {
+    guides.push(new Charcoal.Admin.Guide.Associate($(e)));
+    })
+    });
+{{/assets.inject.js}}
+
+{{> charcoal/admin/template/inc.footer }}
+

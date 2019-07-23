@@ -1,0 +1,124 @@
+{
+    "labels": {
+        "name": "Vidéos youtube",
+        "singular_name": "Vidéo youtube",
+        "create_item": "Ajouter un vidéo",
+        "new_item": "Nouveau vidéo",
+        "view_item": "Voir le vidéo",
+        "edit_item": "Modifier le vidéo",
+        "all_items": "Tous les vidéos",
+        "menu_items": "Vidéo youtube"
+    },
+    "properties": {
+        "id": {
+            "type": "id",
+            "mode": "custom"
+        },
+        "title": {
+            "type": "string",
+            "label": {
+                "fr": "Titre de la vidéo",
+                "en": "Video's title"
+            }
+        },
+        "thumbnail": {
+            "type": "image",
+            "label": {
+                "fr": "Image de la vidéo",
+                "en": "Video preview"
+            }
+        },
+        "playlist": {
+            "type": "string",
+            "label": {
+                "fr": "ID de la playlist",
+                "en": "Playlist ID"
+            }
+        },
+        "position": {
+            "type": "number"
+        }
+    },
+    "sources": {
+        "default": {
+            "table": "charcoal_admin_guide_videos"
+        }
+    },
+    "default_source": "default",
+    "admin": {
+        "lists": {
+            "default": {
+                "properties": [
+                    "id",
+                    "title",
+                    "thumbnail",
+                    "playlist",
+                    "position"
+                ],
+                "orders": [
+                    {
+                        "property": "position",
+                        "mode": "desc"
+                    }
+                ]
+            }
+        },
+        "default_list": "default",
+        "forms": {
+            "default": {
+                "groups": {
+                    "info": {
+                        "title": "Contenu",
+                        "layout": {
+                            "structure": [
+                                {
+                                    "columns": [1, 2]
+                                }, {
+                                    "columns": [3, 1]
+                                }, {
+                                    "columns": [1]
+                                }
+                            ]
+                        },
+                        "properties": [
+                            "id",
+                            "title",
+                            "playlist",
+                            "thumbnail",
+                            "position"
+                        ],
+                        "priority": 100
+                    }
+                },
+                "sidebars": {
+                    "actions": {}
+                }
+            }
+        },
+        "default_form": "default",
+        "dashboards": {
+            "admin.edit": {
+                "widgets": {
+                    "form": {
+                        "type": "charcoal/admin/widget/object-form",
+                        "form_ident": "default",
+                        "obj_type": "charcoal/admin/guide/object/youtube-video"
+                    }
+                }
+            },
+            "admin.table": {
+                "widgets": {
+                    "table": {
+                        "type": "charcoal/admin/widget/table",
+                        "collection_ident": "default",
+                        "obj_type": "charcoal/admin/guide/object/youtube-video",
+                        "priority": 20
+                    }
+                }
+            }
+        },
+        "default_create_dashboard": "admin.edit",
+        "default_edit_dashboard": "admin.edit",
+        "default_collection_dashboard": "admin.table"
+    }
+}

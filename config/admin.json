@@ -1,0 +1,80 @@
+{
+    "admin": {
+        "assets": {
+            "collections": {
+                "js": {
+                    "files": [
+                        "vendor/locomotivemtl/charcoal-contrib-guide/assets/dist/scripts/charcoal.admin.guide.min.js"
+                    ]
+                }
+            }
+        },
+        "routes": {
+            "templates": {
+                "guide/video": {
+                    "ident": "charcoal/admin/guide/template/video",
+                    "route": "/guide/video"
+                },
+                "guide/scrape-video": {
+                    "ident": "charcoal/admin/guide/template/scrape-video",
+                    "route": "/guide/scrape-video"
+                },
+                "guide/associate-video": {
+                    "ident": "charcoal/admin/guide/template/associate-video",
+                    "route": "/guide/associate-video"
+                }
+            },
+            "actions": {
+                "guide/scrape/youtube": {
+                    "methods": [ "GET" ],
+                    "ident": "charcoal/admin/guide/action/scrape-youtube-playlist"
+                },
+
+                "guide/fetch/objects": {
+                    "methods": [ "GET" ],
+                    "ident": "charcoal/admin/guide/action/fetch-objects"
+                },
+
+                "guide/save-video-association": {
+                    "methods": [ "POST" ],
+                    "ident": "charcoal/admin/guide/action/save-video-association"
+                }
+            }
+        },
+        "secondary_menu": {
+            "admin/guide/video": {
+                "title": {
+                    "fr": "Vidéos de tutoriel",
+                    "en": "Tutorial videos"
+                },
+                "links": {
+                    "guide/video": {
+                        "name": "Videos",
+                        "url": "guide/video"
+                    },
+                    "guide/scrape-video": {
+                        "name": "Video scraper",
+                        "url": "guide/scrape-video"
+                    },
+                    "guide/associate-video": {
+                        "name": "Video association",
+                        "url": "guide/associate-video"
+                    }
+                }
+            }
+        },
+        "system_menu": {
+            "items": {
+                "guide": {
+                    "active": true,
+                    "label": {
+                        "fr": "Vidéos d'aide",
+                        "en": "Help videos"
+                    },
+                    "icon_css": "fa fa-question-circle",
+                    "url": "guide/video"
+                }
+            }
+        }
+    }
+}

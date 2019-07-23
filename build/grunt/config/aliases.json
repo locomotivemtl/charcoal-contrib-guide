@@ -1,0 +1,15 @@
+{
+    "default": [
+        "concat",
+        "jscs",
+        "jshint",
+        "uglify",
+        "notify:build"
+    ],
+
+    "sync": [
+        "browserSync",
+        "watch",
+        "notify:watch"
+    ]
+}

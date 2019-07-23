@@ -1,0 +1,37 @@
+{{> charcoal/admin/template/inc.header }}
+
+<main class="c-page-container o-flex_main">
+    {{> charcoal/admin/template/inc.page-header }}
+    <section class="o-container -top -bottom">
+        {{> charcoal/admin/widget/feedbacks }}
+        <div class="dashboard">
+            <div class="o-section">
+                <div class="row">
+                {{#videos}}
+                    <div class="col-6">
+                        <strong>
+                            {{title}}
+                        </strong>
+                        <figure class="embed-responsive embed-responsive-16by9">
+                            <iframe width="640" height="480" src="https://www.youtube.com/embed/{{id}}">
+                            </iframe>
+                        </figure>
+                        <ul>
+                            <li>{{#_t}}Voir sur youtube:{{/_t}} <a href="https://www.youtube.com/watch?v={{id}}" target="_blank" rel="no-referer no-opener">{{title}}</a></li>
+                            <li>{{#_t}}Voir la liste:{{/_t}} <a href="https://www.youtube.com/playlist?list={{playlist}}" target="_blank" rel="no-referer no-opener">{{playlist}}</a></li>
+                        </ul>
+                    </div>
+                {{/videos}}
+                {{^hasVideos}}
+                    <div>
+                        <strong>{{#_t}}Aucune vidéo n'a été importée pour le CMS.{{/_t}}</strong>
+                    </div>
+                {{/hasVideos}}
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+{{> charcoal/admin/template/inc.footer }}

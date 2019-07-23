@@ -1,0 +1,91 @@
+{{> charcoal/admin/template/inc.header }}
+
+<main class="c-page-container o-flex_main">
+    {{> charcoal/admin/template/inc.page-header }}
+    <section class="o-container -top -bottom">
+        {{> charcoal/admin/widget/feedbacks }}
+        <div class="dashboard">
+            <div class="o-section">
+
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="youtube-tab" data-toggle="pill" href="#youtube" role="tab" aria-controls="youtube" aria-selected="true">Youtube</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="vimeo-tab" data-toggle="pill" href="#vimeo" role="tab" aria-controls="vimeo" aria-selected="false">Vimeo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="current-tab" data-toggle="pill" href="#current" role="tab" aria-controls="current" aria-selected="false">Current</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="youtube" role="tabpanel" aria-labelledby="youtube-tab">
+                        <form action="/admin/guide/scrape/youtube" method="GET">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <fieldset class="form-group">
+                                        <label for="widget_5d31ea6ec54f6">{{#_t}}Identifiant de la liste{{/_t}}</label>
+                                        <div id="form-field-widget_5d31ea6ec54f6"
+                                             class="form-field form-field-widget_5d31ea6ec54f6 form-property-title form-property-string">
+                                            <input
+                                                type="text"
+                                                id="playlistId"
+                                                name="playlistId"
+                                                class="form-control"
+                                                value="{{playlistId}}"
+                                            >
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary js-sidebar-save" type="submit" data-widget-type="charcoal/admin/widget/object-form"><span class="fa fa-refresh u-spin d-none"></span>
+                                <span class="btn-label">{{#_t}}Importer{{/_t}}</span>
+
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="vimeo" role="tabpanel" aria-labelledby="vimeo-tab">
+                        <div class="tab-pane fade show active" id="youtube" role="tabpanel" aria-labelledby="youtube-tab">
+                            <form action="/admin/guide/scrape/vimeo" method="GET">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <fieldset class="form-group">
+                                            <label for="widget_5d31ea6ec54f6">{{#_t}}Identifiant de la liste{{/_t}}</label>
+                                            <div id="form-field-widget_5d31ea6ec54f6"
+                                                 class="form-field form-field-widget_5d31ea6ec54f6 form-property-title form-property-string">
+                                                <input
+                                                    type="text"
+                                                    id="playlistId"
+                                                    name="playlistId"
+                                                    class="form-control"
+                                                    value="{{playlistId}}"
+                                                >
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary js-sidebar-save" type="submit" data-widget-type="charcoal/admin/widget/object-form"><span class="fa fa-refresh u-spin d-none"></span>
+                                    <span class="btn-label">{{#_t}}Importer{{/_t}}</span>
+
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="current" role="tabpanel" aria-labelledby="current-tab">
+                        Currently used: Youtube<br>
+                        Current Playlist:
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </section>
+</main>
+
+{{> charcoal/admin/template/inc.footer }}
