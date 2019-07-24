@@ -41,25 +41,25 @@ class SaveVideoAssociationAction extends AbstractAction
             return $response->withStatus(404);
         }
 
+
         $objects = $params['obj'];
-        $proto = $this->modelFactory()->create(VideoAssociation::class);
+        $proto   = $this->modelFactory()->create(VideoAssociation::class);
 
         if (!$proto->source()->tableExists()) {
             $proto->source()->createTable();
         }
 
-        $q = strtr('DELETE FROM `%table`', [ '%table' => $proto->source()->table() ]);
+        $q = strtr('DELETE FROM `%table`', ['%table' => $proto->source()->table()]);
         $proto->source()->dbQuery($q);
 
         foreach ($objects as $objType => $val) {
-
             $widget = $val['widget_type'];
 
             $property = isset($val['property']) ? $val['property'] : '';
-            $video = $val['video'];
+            $video    = $val['video'];
 
             $count = count($widget);
-            $i = 0;
+            $i     = 0;
             for (; $i < $count; $i++) {
                 if (!isset($widget[$i]) || !isset($video[$i])) {
                     continue;
@@ -70,15 +70,16 @@ class SaveVideoAssociationAction extends AbstractAction
                     continue;
                 }
 
-                $targetObjProperty = isset($property[$i]) ? $property[$i] : '';
+                $targetObjProperty      = isset($property[$i]) ? $property[$i] : '';
                 $targetObjPropertyValue = ($targetObjProperty && isset($val[$targetObjProperty][$i])) ? $val[$targetObjProperty][$i] : '';
 
-                $data = [
-                    'video' => $video[$i],
-                    'targetWidget' => $widget[$i],
-                    'targetObjType' => $objType,
-                    'targetObjProperty' => $targetObjProperty,
+                $data        = [
+                    'video'                  => $video[$i],
+                    'targetWidget'           => $widget[$i],
+                    'targetObjType'          => $objType,
+                    'targetObjProperty'      => $targetObjProperty,
                     'targetObjPropertyValue' => $targetObjPropertyValue,
+                    'position'               => $i
                 ];
                 $association = $this->modelFactory()->create(VideoAssociation::class);
                 $association->setData($data);

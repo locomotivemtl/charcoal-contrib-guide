@@ -40,5 +40,4 @@ class BaseVideoTemplate extends AdminTemplate
         $this['main_menu_item'] = self::MAIN_MENU_IDENT;
         return parent::mainMenu();
     }
-
 }

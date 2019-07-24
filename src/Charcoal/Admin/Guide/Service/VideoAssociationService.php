@@ -37,27 +37,26 @@ class VideoAssociationService
         if (!$proto->source()->tableExists()) {
             $proto->source()->createTable();
         }
-        $list  = $this->collectionLoader()->setModel($proto)->load();
+        $list = $this->collectionLoader()->setModel($proto)->addOrder('position', 'asc')->load();
 
         $processedObjTypes = [];
-        $usedIds           = [];
+        $usedIds           = [
+            'form'  => [],
+            'table' => []
+        ];
 
         foreach ($list as $obj) {
             $objType = $obj->targetObjType();
-
-            $video  = $this->modelFactory()->create(YoutubeVideo::class)->load($obj->video());
-            $target = $this->modelFactory()->create($objType);
-
-            $loader = $this->collectionLoader()->reset()->setModel($target);
+            $video   = $this->modelFactory()->create(YoutubeVideo::class)->load($obj->video());
+            $target  = $this->modelFactory()->create($objType);
+            $loader  = $this->collectionLoader()->reset()->setModel($target);
 
             if ($obj->targetObjPropertyValue()) {
                 $loader->addFilter($obj->targetObjProperty(), $obj->targetObjPropertyValue());
             }
 
             $ident = $obj->targetObjPropertyValue() ?: 'default';
-
             if (!isset($processedObjTypes[$objType][$obj->targetWidget()][$ident])) {
-
                 $processedObjTypes[$objType][$obj->targetWidget()][$ident] = [
                     'video' => $this->formatVideo($video),
                     'ids'   => []
@@ -65,10 +64,9 @@ class VideoAssociationService
             }
 
             $list = $loader->load();
-
             foreach ($list as $o) {
-                if (!in_array($o->id(), $usedIds)) {
-                    $usedIds[]                                                          = $o->id();
+                if (!in_array($o->id(), $usedIds[$obj->targetWidget()])) {
+                    $usedIds[$obj->targetWidget()][]                                    = $o->id();
                     $processedObjTypes[$objType][$obj->targetWidget()][$ident]['ids'][] = $o->id();
                 }
             }

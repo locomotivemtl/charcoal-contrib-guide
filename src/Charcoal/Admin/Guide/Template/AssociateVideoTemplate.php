@@ -350,4 +350,12 @@ class AssociateVideoTemplate extends BaseVideoTemplate
         return $source;
     }
 
+    /**
+     * @return \Charcoal\Admin\Widget\SecondaryMenuWidgetInterface|null
+     */
+    public function secondaryMenu()
+    {
+        $this['secondary_menu_item'] = static::SECONDARY_MENU_IDENT;
+        return parent::secondaryMenu();
+    }
 }

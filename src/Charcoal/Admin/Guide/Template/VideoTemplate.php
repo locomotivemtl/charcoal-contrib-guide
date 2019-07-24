@@ -12,6 +12,8 @@ class VideoTemplate extends BaseVideoTemplate
 {
     use CollectionLoaderAwareTrait;
 
+    const SECONDARY_MENU_IDENT = 'guide/video';
+
     /**
      * @var array
      */
@@ -71,5 +73,14 @@ class VideoTemplate extends BaseVideoTemplate
         }
 
         return $this->videos;
+    }
+
+    /**
+     * @return \Charcoal\Admin\Widget\SecondaryMenuWidgetInterface|null
+     */
+    public function secondaryMenu()
+    {
+        $this['secondary_menu_item'] = static::SECONDARY_MENU_IDENT;
+        return parent::secondaryMenu();
     }
 }
