@@ -54,11 +54,13 @@
                     },
                     "guide/scrape-video": {
                         "name": "Video scraper",
-                        "url": "guide/scrape-video"
+                        "url": "guide/scrape-video",
+                        "required_acl_permissions": ["charcoal/admin/guide/edit"]
                     },
                     "guide/associate-video": {
                         "name": "Video association",
-                        "url": "guide/associate-video"
+                        "url": "guide/associate-video",
+                        "required_acl_permissions": ["charcoal/admin/guide/edit"]
                     }
                 }
             }
