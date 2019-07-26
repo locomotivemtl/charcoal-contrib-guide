@@ -16,6 +16,11 @@ class FetchObjectsAction extends AbstractAction
     protected $videoAssociationService;
 
     /**
+     * @var string|null
+     */
+    protected $objType;
+
+    /**
      * @param Container $container Pimple\Container.
      * @return void
      */
@@ -53,8 +58,32 @@ class FetchObjectsAction extends AbstractAction
         $params = $request->getParams();
         $this->setMode('json');
 
+        if (isset($params['obj_type'])) {
+            $this->setObjType($params['obj_type']);
+        }
+
         return $response;
     }
+
+    /**
+     * @return null|string
+     */
+    public function objType()
+    {
+        return $this->objType;
+    }
+
+    /**
+     * @param null|string $objType
+     * @return FetchObjectsAction
+     */
+    public function setObjType($objType)
+    {
+        $this->objType = $objType;
+        return $this;
+    }
+
+
 
     public function error($message)
     {
@@ -67,6 +96,6 @@ class FetchObjectsAction extends AbstractAction
      */
     public function results()
     {
-        return $this->videoAssociationService()->associations();
+        return $this->videoAssociationService()->associations($this->objType());
     }
 }

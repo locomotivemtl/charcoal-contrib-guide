@@ -9,11 +9,14 @@ Charcoal.Admin.Widget_Form.prototype.init = function () {
     this.guide = new Charcoal.Admin.Guide();
 
     this.guide.fetch(function () {
-        if (that.hasHelpButton()) {
-            that.addButtons();
-            that.addEventListeners();
-        }
-    });
+            if (that.hasHelpButton()) {
+                that.addButtons();
+                that.addEventListeners();
+            }
+        },
+        {
+            obj_type: this.obj_type
+        });
 };
 
 /**
@@ -100,10 +103,10 @@ Charcoal.Admin.Guide = function () {
 /**
  *
  */
-Charcoal.Admin.Guide.prototype.fetch = function (callback) {
+Charcoal.Admin.Guide.prototype.fetch = function (callback, data) {
     // Scope
     var that = this;
-    fetch(this.url, {
+    fetch(this.url+'?obj_type='+data.obj_type, {
         method:      'GET',
         mode:        'cors',
         cache:       'no-cache',
@@ -223,11 +226,14 @@ Charcoal.Admin.Widget_Table.prototype.init = function () {
     this.guide = new Charcoal.Admin.Guide();
 
     this.guide.fetch(function () {
-        if (that.hasHelpButton()) {
-            that.addButtons();
-            that.addEventListeners();
-        }
-    });
+            if (that.hasHelpButton()) {
+                that.addButtons();
+                that.addEventListeners();
+            }
+        },
+        {
+            obj_type: this.obj_type
+        });
 };
 
 

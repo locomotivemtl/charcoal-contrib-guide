@@ -31,13 +31,18 @@ class VideoAssociationService
     /**
      *
      */
-    public function loadAssociations()
+    public function loadAssociations($targetObjType=null)
     {
         $proto = $this->modelFactory()->create(VideoAssociation::class);
         if (!$proto->source()->tableExists()) {
             $proto->source()->createTable();
         }
-        $list = $this->collectionLoader()->setModel($proto)->addOrder('position', 'asc')->load();
+        $loader = $this->collectionLoader()->setModel($proto)->addOrder('position', 'asc');
+
+        if ($targetObjType !== null) {
+            $loader->addFilter('target_obj_type', $targetObjType);
+        }
+        $list = $loader->load();
 
         $processedObjTypes = [];
         $usedIds           = [
@@ -45,15 +50,26 @@ class VideoAssociationService
             'table' => []
         ];
 
+        $i = 0;
         foreach ($list as $obj) {
             $objType = $obj->targetObjType();
             $video   = $this->modelFactory()->create(YoutubeVideo::class)->load($obj->video());
             $target  = $this->modelFactory()->create($objType);
-            $loader  = $this->collectionLoader()->reset()->setModel($target);
 
+            $q = 'SELECT %key FROM `%table`';
+            $values = [
+                '%table' => $target->source()->table(),
+                '%key' => $target->key()
+            ];
+
+            $loader  = $this->collectionLoader()->reset()->setModel($target);
             if ($obj->targetObjPropertyValue()) {
+                $q .= ' WHERE %property = \'%value\'';
+                $values['%property'] = $obj->targetObjProperty();
+                $values['%value'] = $obj->targetObjPropertyValue();
                 $loader->addFilter($obj->targetObjProperty(), $obj->targetObjPropertyValue());
             }
+
 
             $ident = $obj->targetObjPropertyValue() ?: 'default';
             if (!isset($processedObjTypes[$objType][$obj->targetWidget()][$ident])) {
@@ -62,15 +78,26 @@ class VideoAssociationService
                     'ids'   => []
                 ];
             }
-
-            $list = $loader->load();
-            foreach ($list as $o) {
-                if (!in_array($o->id(), $usedIds[$obj->targetWidget()])) {
-                    $usedIds[$obj->targetWidget()][]                                    = $o->id();
-                    $processedObjTypes[$objType][$obj->targetWidget()][$ident]['ids'][] = $o->id();
+            if ($targetObjType !== null) {
+                $q   = strtr($q, $values);
+                $res = $target->source()->dbQuery($q);
+                foreach ($res as $o) {
+                    if (!isset($usedIds[$objType])) {
+                        $usedIds[$objType] = [];
+                    }
+                    if (!isset($usedIds[$objType][$obj->targetWidget()])) {
+                        $usedIds[$objType][$obj->targetWidget()] = [];
+                    }
+                    if (!$obj->targetObjPropertyValue() || !in_array($o[0], $usedIds[$objType][$obj->targetWidget()])) {
+                        $usedIds[$objType][$obj->targetWidget()][]                          = $o[0];
+                        $processedObjTypes[$objType][$obj->targetWidget()][$ident]['ids'][] = $o[0];
+                    }
                 }
+                unset($usedIds[$objType]);
             }
+
         }
+
 
         return $processedObjTypes;
     }
@@ -78,10 +105,10 @@ class VideoAssociationService
     /**
      * @return array
      */
-    public function associations()
+    public function associations($objType=null)
     {
         if (!$this->associations) {
-            $this->associations = $this->loadAssociations();
+            $this->associations = $this->loadAssociations($objType);
         }
 
         return $this->associations;

@@ -9,11 +9,14 @@ Charcoal.Admin.Widget_Form.prototype.init = function () {
     this.guide = new Charcoal.Admin.Guide();
 
     this.guide.fetch(function () {
-        if (that.hasHelpButton()) {
-            that.addButtons();
-            that.addEventListeners();
-        }
-    });
+            if (that.hasHelpButton()) {
+                that.addButtons();
+                that.addEventListeners();
+            }
+        },
+        {
+            obj_type: this.obj_type
+        });
 };
 
 /**

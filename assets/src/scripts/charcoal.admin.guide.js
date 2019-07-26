@@ -11,10 +11,10 @@ Charcoal.Admin.Guide = function () {
 /**
  *
  */
-Charcoal.Admin.Guide.prototype.fetch = function (callback) {
+Charcoal.Admin.Guide.prototype.fetch = function (callback, data) {
     // Scope
     var that = this;
-    fetch(this.url, {
+    fetch(this.url+'?obj_type='+data.obj_type, {
         method:      'GET',
         mode:        'cors',
         cache:       'no-cache',
